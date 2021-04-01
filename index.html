@@ -1,29 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+	</head>
+	
 	<body>
-	<h1>MAKE SURE YOU INCLUDE HTTPS:// IN YOUR LINK!</h1>
-	<h2>Catbox.moe link</h2>
-	<input type="text" id="catbox" name="catbox"><br><br>
-	<h2>PixelCanvas link</h2>
-	<input type="text" id="pixel" name="pixel"><br><br>
-	<button onclick="genTemplate()">Generate Template</button>
-	<h2 id="templateResult"> Click Generate </h2>
+		<h2>Template Link Generator</h2>
+		<h2 style="color:#ff0000">MAKE SURE YOU INCLUDE HTTPS:// IN YOUR LINK!</h2>
+		<h3>Catbox.moe link</h3>
+		<input type="text" id="catbox" name="catbox"><br><br>
+		<h3>PixelCanvas link</h3>
+		<input type="text" id="pixel" name="pixel"><br><br>
+		<button onclick="genTemplateLink()">Generate Template Link</button>
+		<h3 id="templateResult"> </h3>
 	</body>
 </html> 
 
 <script>
 
-function genTemplate()
+function genTemplateLink()
 {
 	var catbox = document.getElementById("catbox").value;
 	var pixel = document.getElementById("pixel").value;
+	
 	// TODO: regex, im not good at it
 	catboxLocation = catbox.split("/")[3];
 	
 	// Get the pixel's position
 	pixelPos = pixel.split("/")[3];
-	posX = pixelPos.split(",")[0].substring(1);
-	posY = pixelPos.split(",")[1];
+	posX = pixelPos.split(", ")[0].substring(1);
+	posY = pixelPos.split(", ")[1];
 	
 	imgWidth = 0;
 	imgHeight = 0;
@@ -37,18 +43,11 @@ function genTemplate()
 		console.log(catboxLocation);
 		console.log(posX + " | " + posY);
 		console.log(imgHeight + " | " + imgWidth);
-		//{"filename":"3rd_template.png","height":360,"width":360,"x":0,"y":0}
 		
-		var template =  "{\"filename\":\"" + catboxLocation +
-						"\",\"height\":" + imgHeight +
-						",\"width\":" + imgWidth +
-						",\"x\":" + posX +
-						",\"y\":" + posY + "}";
-		
-		// TODO: This is kinda trash but its 00:03 and i just cant, im sorry
-		document.getElementById("templateResult").innerHTML  = template;
+		var template = {filename: catboxLocation, height: imgHeight, width: imgWidth, x: posX, y: posY};
+		document.getElementById("templateResult").innerHTML  = JSON.stringify(template);
 	};
+	
 	img.src = catbox;
 }
-
 </script>
